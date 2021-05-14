@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+
+    <title>OpenSeadragon</title>
+
+    <link rel='stylesheet' type='text/css' media='screen' href='/style.css'/>
+
+    <script src="/openseadragon-2.4.2/openseadragon.min.js"></script>
+</head>
+
+<body>
+    <div class="demoarea">
+        <div class="demoheading">
+            OpenSeadragon Viewer With Default Settings
+            <span id='consolelog'></span>
+        </div>
+        <div id="contentDiv" class="openseadragon"></div>
+     </div>
+    
+    <script type="text/javascript">
+        // Example
+        OpenSeadragon({
+            id:              "contentDiv",
+            prefixUrl:       "/openseadragon-2.4.2/images/",
+            visibilityRatio: 1.0,
+            constrainDuringPan: true,
+            sequenceMode:       true,
+            tileSources: ["https://cantaloupemed.azurewebsites.net//iiif/3/HR11-1075-S11-31517-1D.tiff/info.json"],
+            "tiles": [{
+                "scaleFactors": [ 1, 2, 4, 8, 16, 32, 64 ],
+                "width": 1024
+                }]
+        });
+    </script>
+</body>
+</html>

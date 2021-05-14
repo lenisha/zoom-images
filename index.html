@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+
+    <title>OpenSeadragon</title>
+
+    <link rel='stylesheet' type='text/css' media='screen' href='/style.css'/>
+
+    <script src="/openseadragon-2.4.2/openseadragon.min.js"></script>
+</head>
+
+<body>
+    <div class="demoarea">
+        <div class="demoheading">
+            OpenSeadragon Viewer With Default Settings
+            <span id='consolelog'></span>
+        </div>
+        <div id="contentDiv" class="openseadragon"></div>
+     </div>
+    
+    <script type="text/javascript">
+        // Example
+        OpenSeadragon({
+            id:              "contentDiv",
+            prefixUrl:       "/openseadragon-2.4.2/images/",
+            tileSources:     "/slides.dzi",
+            visibilityRatio: 1.0,
+            constrainDuringPan: true
+        });
+    </script>
+</body>
+</html>
