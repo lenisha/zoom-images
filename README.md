@@ -1,5 +1,11 @@
 # POC for the Image Zooming
 
+## Prerequisites
+
+- Winsows WSL (or Linux VM) - https://docs.microsoft.com/en-us/windows/wsl/install-win10
+- Windows Terminal -  https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701
+- Azure Storage Explorer - https://azure.microsoft.com/en-ca/features/storage-explorer/ 
+
 ## DEEP Zoom setup
 
 - Create storage account and enable static web site
@@ -7,17 +13,19 @@
 
 ### Split TIFF to DeepZoom Format
 
-- Install vips tool in LInux or WSL
+- Install vips tool in Linux or WSL
 ```
 sudo apt install libvips
 sudo apt install libvips-tools
 ```
 
-- Run `vips` to prepare image
+- Run `vips dzsave` to prepare image 
 
 ```
 vips dzsave HR11-1075-S11-31517-1D.tiff slides
 ```
+
+It will generate `*.dzi` and multiple layers tile images
 
 - Load all resulting tiles into storage account in `$web` container
 
@@ -25,7 +33,7 @@ vips dzsave HR11-1075-S11-31517-1D.tiff slides
 
 ### Prepare Web Page with OpenSeadragon
 
-Follow [OSD GetStarted](https://openseadragon.github.io/docs/) and create index.html pointing `tileSources` to slides in DZI format:
+Follow [OSD GetStarted](https://openseadragon.github.io/docs/) and create index.html pointing `tileSources` to slides in DZI format and `prefixUrl` to the images coming with openseadragon library:
 
 ```
  <div class="demoarea">
@@ -54,7 +62,7 @@ Follow [OSD GetStarted](https://openseadragon.github.io/docs/) and create index.
 ## IIIF setup
 
 
--  create Azure Container Registry and enable adming user 
+-  create Azure Container Registry and enable admin user 
 ![docs](/docs/acr.jpg)
 
 - Replace url in `docker/cantaloupe.properties` file to point to Azure Storage where TIFF file stored
@@ -75,6 +83,17 @@ az acr build --registry <name of ACR> --image cantaloupe:5.0.2 .
 
 ![docs](/docs/webapp.jpg)
 
+
+- Set webapp configuration `WEBSITES_PORT` to port exposed by docker image
+![docs](/docs/webappport.jpg)
+
+- Start Web app and havigate to its URL
+![docs](/docs/webappurl.jpg)
+
+- To validate IIIF server navigate to image URL
+```
+https://<url>.azurewebsites.net/iiif/3/HR11-1075-S11-31517-1D.tiff/info.json
+```
 
 - Create `indexiiif.html` and upload it to the Storage Account, where `tileSources` should point to IIIF Server url hosting the image:
 
