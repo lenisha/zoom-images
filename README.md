@@ -60,16 +60,16 @@ Follow [OSD GetStarted](https://openseadragon.github.io/docs/) and create index.
 
 
 ## IIIF setup
+- Replace url in `docker/cantaloupe.properties` file to point to **Azure Storage Static Web Site Primary endpoint** (shown above) where TIFF file stored
+
+```
+HttpSource.BasicLookupStrategy.url_prefix = https://url>.web.core.windows.net/tiff/
+```
 
 
 -  create Azure Container Registry and enable admin user 
 ![docs](/docs/acr.jpg)
 
-- Replace url in `docker/cantaloupe.properties` file to point to **Azure Storage Static Web Site URL** where TIFF file stored
-
-```
-HttpSource.BasicLookupStrategy.url_prefix = https://url>.web.core.windows.net/tiff/
-```
 
 - Build docker image for [Cantaloupe IIIF server](https://cantaloupe-project.github.io/)
 
