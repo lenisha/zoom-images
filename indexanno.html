@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+
+    <title>OpenSeadragon</title>
+
+    <link rel='stylesheet' type='text/css' media='screen' href='/style.css'/>
+    <link rel="stylesheet"  href="/openseadragon-2.4.2/annotorious.min.css" type='text/css'/>
+
+    <script src="/openseadragon-2.4.2/openseadragon.min.js"></script>
+    <script src="/openseadragon-2.4.2/openseadragon-annotorious.min.js"></script>
+
+
+    <script>window.onload = function() {
+      var viewer = OpenSeadragon({
+        id:              "contentDiv",
+        prefixUrl:       "/openseadragon-2.4.2/images/",
+        tileSources:     "/slides.dzi",
+        gestureSettingsTouch: {
+          pinchRotate: true
+        },
+        showRotationControl: true,
+        showFlipControl: true,
+        constrainDuringPan: true,
+      });
+      
+      var anno = OpenSeadragon.Annotorious(viewer, {
+        locale: 'auto'
+      });
+
+      anno.setAuthInfo({
+        id: 'http://www.example.com/rainer',
+        displayName: 'rainer'
+      });
+
+      var toolToggle = document.getElementById('current-tool');
+      toolToggle.addEventListener('click', function() {
+        if (toolToggle.innerHTML == 'TOOL: RECTANGLE') {
+          toolToggle.innerHTML = 'TOOL: POLYGON';
+          anno.setDrawingTool('polygon');
+        } else {
+          toolToggle.innerHTML = 'TOOL: RECTANGLE';
+          anno.setDrawingTool('rect');
+        }
+      });
+
+      var modeBtn = document.getElementById('mode');
+      modeBtn.addEventListener('click', function() {             
+        if (modeBtn.innerHTML == 'MODE: VIEW') {
+          modeBtn.innerHTML = 'MODE: ANNOTATE';
+          anno.setDrawingEnabled(true);
+        } else {
+          modeBtn.innerHTML = 'MODE: VIEW';
+          anno.setDrawingEnabled(false);
+        }
+      });
+
+      anno.on('createSelection', function(selection) {
+        console.log('selection', selection);
+      });
+
+      anno.on('selectAnnotation', function(annotation) {
+        console.log('selected', annotation);
+      });
+
+      anno.on('cancelSelected', function(a) {
+        console.log('cancelSelected', a);
+      });
+
+      anno.on('mouseEnterAnnotation', function(annotation) {
+        // console.log('mouseEnter', annotation);
+      });
+
+      anno.on('mouseLeaveAnnotation', function(annotation) {
+        // console.log('mouseLeave', annotation);
+      });
+
+      anno.loadAnnotations('annotations.w3c.json');
+    }
+    </script>
+</head>
+
+<body>
+    <div class="demoarea">
+        <div class="demoheading">
+            OpenSeadragon Viewer With Default Settings
+            <span id='consolelog'></span>
+            <p class="instructions">Click the annotation to edit. Hold <strong>SHIFT</strong> while clicking and dragging the mouse to create a new annotation.</p>
+            <p><button id="current-tool">TOOL: RECTANGLE</button> <button id="mode">MODE: VIEW</button></p>    
+        </div>
+        <div id="contentDiv" class="openseadragon"></div>
+     </div>
+    
+    
+</body>
+</html>
